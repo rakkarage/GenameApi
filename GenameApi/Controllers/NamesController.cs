@@ -15,7 +15,7 @@ namespace GenameApi.Controllers
 			return Name;
 		}
 		// GET api/values/5
-		[HttpGet("{sex=.5}, {generated=.5}, {pre=.333}, {vowel=.8}, {middle0=.3}, {middle1=.1}, {post=.22}")]
+		[HttpGet("{sex=.5}/{generated=.5}/{pre=.333}/{vowel=.8}/{middle0=.3}/{middle1=.1}/{post=.22}")]
 		public ActionResult<string> Get(
 			double sex = .5,
 			double generated = .5,
