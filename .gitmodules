@@ -1,3 +1,3 @@
-[submodule "Gename"]
-	path = Gename
+[submodule "GenameApi/Gename"]
+	path = GenameApi/Gename
 	url = https://github.com/rakkarage/Gename
