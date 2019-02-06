@@ -1,15 +1,19 @@
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
+WORKDIR /app
+EXPOSE 80
+
 FROM microsoft/dotnet:2.2-sdk AS build
+WORKDIR /src
+COPY ["GenameApi/GenameApi.csproj", "GenameApi/"]
+RUN dotnet restore "GenameApi/GenameApi.csproj"
+COPY . .
+WORKDIR /src/GenameApi
+RUN dotnet build "GenameApi.csproj" -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish "GenameApi.csproj" -c Release -o /app
+
+FROM base AS final
 WORKDIR /app
-
-COPY ./GenameApi.sln ./
-COPY ./GenameApi/GenameApi.csproj ./GenameApi/
-COPY ./Gename/Gename.csproj ./Gename/
-RUN dotnet restore ./GenameApi/TestGename.csproj
-
-COPY . ./
-RUN dotnet publish -c Release -o out
-
-FROM microsoft/dotnet:2.2-aspnetcore-runtime AS runtime
-WORKDIR /app
-COPY --from=build /app/GenameApi/out ./
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "GenameApi.dll"]
